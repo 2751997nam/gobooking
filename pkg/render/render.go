@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/justinas/nosurf"
 )
 
 var functions = template.FuncMap{}
@@ -20,12 +22,12 @@ func NewTemplates(ac *config.AppConfig) {
 
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
-
+func AddDefaultData(td *models.TemplateData, req *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(req)
 	return td
 }
 
-func RenderTemplate(res http.ResponseWriter, tmpl string, templateData *models.TemplateData) {
+func RenderTemplate(res http.ResponseWriter, req *http.Request, tmpl string, templateData *models.TemplateData) {
 	var templateCache map[string]*template.Template
 	if appConfig.UseCache {
 		//get template cache from app config
@@ -42,7 +44,7 @@ func RenderTemplate(res http.ResponseWriter, tmpl string, templateData *models.T
 		return
 	}
 	buf := new(bytes.Buffer)
-	templateData = AddDefaultData(templateData)
+	templateData = AddDefaultData(templateData, req)
 	err := template.Execute(buf, templateData)
 	if err != nil {
 		log.Println(err)

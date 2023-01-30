@@ -19,7 +19,18 @@ func routes(ac *config.AppConfig) http.Handler {
 
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/generals-quarters", handlers.Repo.About)
+	mux.Get("/generals-quarters", handlers.Repo.General)
+	mux.Get("/majors-suite", handlers.Repo.Major)
+	mux.Get("/make-reservation", handlers.Repo.MakeReservation)
+	mux.Get("/search-avaibility", handlers.Repo.SearchAvailbilty)
+	mux.Post("/search-avaibility", handlers.Repo.PostSearchAvailbilty)
+	mux.Get("/contact", handlers.Repo.Contact)
 	mux.Get("/favicon.ico", handlers.Repo.DoNothing)
+
+	fileServer := http.FileServer(http.Dir("./public"))
+
+	mux.Handle("/*", http.StripPrefix("/", fileServer))
 
 	return mux
 }
