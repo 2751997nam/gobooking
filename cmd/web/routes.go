@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gobooking/pkg/config"
-	"gobooking/pkg/handlers"
+	"gobooking/interval/config"
+	"gobooking/interval/handlers"
 	"net/http"
 
 	"github.com/go-chi/chi"

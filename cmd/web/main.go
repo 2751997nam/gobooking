@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"gobooking/pkg/config"
-	"gobooking/pkg/handlers"
-	"gobooking/pkg/render"
+	"gobooking/interval/config"
+	"gobooking/interval/handlers"
+	"gobooking/interval/render"
 
 	"github.com/alexedwards/scs/v2"
 )

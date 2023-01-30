@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"gobooking/pkg/config"
-	"gobooking/pkg/models"
-	"gobooking/pkg/render"
+	"gobooking/interval/config"
+	"gobooking/interval/models"
+	"gobooking/interval/render"
 )
 
 // repository pattern

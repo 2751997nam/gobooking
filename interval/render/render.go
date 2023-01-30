@@ -2,8 +2,8 @@ package render
 
 import (
 	"bytes"
-	"gobooking/pkg/config"
-	"gobooking/pkg/models"
+	"gobooking/interval/config"
+	"gobooking/interval/models"
 	"html/template"
 	"log"
 	"net/http"
