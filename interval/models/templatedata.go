@@ -1,5 +1,7 @@
 package models
 
+import "gobooking/interval/forms"
+
 // hold the data set for the handlers
 type TemplateData struct {
 	StringMap map[string]string
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash     string
 	Waring    string
 	Error     string
+	Form      *forms.Form
 }

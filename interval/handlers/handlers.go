@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"gobooking/interval/config"
+	"gobooking/interval/forms"
 	"gobooking/interval/models"
 	"gobooking/interval/render"
 )
@@ -55,7 +57,40 @@ func (m *Repository) Major(res http.ResponseWriter, req *http.Request) {
 }
 
 func (m *Repository) MakeReservation(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res, req, "make-reservation.html", &models.TemplateData{})
+	var emtpyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emtpyReservation
+	render.RenderTemplate(res, req, "make-reservation.html", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	})
+}
+
+func (m *Repository) PostMakeReservation(res http.ResponseWriter, req *http.Request) {
+	err := req.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	reservation := models.Reservation{
+		FirstName: req.Form.Get("first_name"),
+		LastName:  req.Form.Get("last_name"),
+		Email:     req.Form.Get("email"),
+		Phone:     req.Form.Get("phone"),
+	}
+
+	form := forms.New(req.PostForm)
+	form.Required(req, "first_name", "last_name", "email", "phone")
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+		render.RenderTemplate(res, req, "make-reservation.html", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
 }
 
 func (m *Repository) Contact(res http.ResponseWriter, req *http.Request) {
